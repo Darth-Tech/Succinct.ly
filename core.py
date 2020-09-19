@@ -6,68 +6,56 @@ Created on Thu Sep 17 19:18:08 2020
 @author: agastya
 """
 from summarizer import Summarizer
-from transformers import *
+from transformers import AutoConfig, AutoTokenizer
 
 
 class Summary:
-    def __init__(self, num_sentences=None, ratio=0.3, model=None, tokeniser=None):
-        '''
-        
+    def __init__(self):
+        pass
 
-        Parameters
-        ----------
-        model : string, optional
-            Custom model configuration. The default is None.
-        tokeniser : string, optional
-            Custom tokeniser configuration. The default is None.
+    def model_create(self, model=None, tokeniser=None):
+        """[summary]
 
-        Returns
-        -------
-        None.
+        Args:
+            model (string, optional): Custom model name for summarising. Defaults to None.
+            tokeniser (string, optional): Custom tokeniser name for summarising. Defaults to None.
 
-        '''
-        if model is not None or num_sentences is not None:
-            custom_config = AutoConfig.from_pretrained(model)
-            custom_config.output_hidden_states=True
-            custom_tokenizer = AutoTokenizer.from_pretrained(mo)
-            custom_model = AutoModel.from_pretrained(model, config=custom_config)
-    def model(self):
-        '''
-        
-
-        Returns
-        -------
-        model : summariser object
-
-        '''
-        if model is not None or num_sentences is not None:
+        Returns:
+            [type]: [description]
+        """
+        if model is None or tokeniser is None:
             model = Summarizer()
         else:
-            model = Summarizer(custom_model=custom_model, custom_tokenizer=custom_tokenizer)
-        
-        return model
-    def summarize(self, text, num_sentences=None, ratio=0.3):
-        '''
-        
-
-        Parameters
-        ----------
-        text : string
-            text to be summarised.
-        num_sentences : int, optional
-            Number of sentences the text should be condensed into. The default is None.
-        ratio : float, optional
-            Speicifies how much of the original text must the summary represent lengthwise. The default is 0.3.
-
-        Returns
-        -------
-        result : string
-            Summarised text.
-
-        '''
-        model = self.model()
-        summary = model(text, num_sentences, ratio)
-        result = ''.join(summary)
-        
-        return result
+            custom_config = AutoConfig.from_pretrained(model)
+            custom_config.output_hidden_states=True
+            custom_tokenizer = AutoTokenizer.from_pretrained(model)
+            model = Summarizer(custom_model=model, custom_tokenizer=custom_tokenizer)
             
+        return model
+
+    def summarize(self, text, num_sentences=None, ratio=None):
+        """[summary]
+
+        Args:
+            text (string): Text body to summarize.
+            num_sentences (int, optional): Number of sentences the summary must consist of. Defaults to None.
+            ratio (float, optional): The ratio of length of summary text to the original text. Defaults to None.
+
+        Returns:
+            [type]: [description]
+        """
+        if num_sentences is None:
+            model = self.model_create()
+            summary = model(text)
+            result = ''.join(summary)
+        elif ratio is None and num_sentences is not None:
+            model = self.model_create()
+            summary = model(text, min_length=num_sentences)
+            result = ''.join(summary)
+        elif ratio is not None:
+            model = self.model_create()
+            summary = model(text, ratio=ratio)
+            result = ''.join(summary)
+
+        return result
+
