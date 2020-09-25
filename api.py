@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thur Sep 24 17:54:28 2020
+@author: polo
+"""
 from flask import Flask
 from flask_restplus import Api, Resource
 from flask import request
