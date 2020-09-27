@@ -7,5 +7,4 @@ services:
           - "5000:5000"
         volumes: 
           - ./:/app
-        command: ["api.py"]
-        
+        command: ["python","/app/api.py"]
