@@ -6,7 +6,7 @@ Created on Thur Sep 24 17:54:28 2020
 from flask import Flask
 from flask_restx import Api, Resource
 from flask import request
-from scraper import Scraper
+from executor import Executor
 
 flask_app = Flask(__name__)
 #app = Flask(__name__)
@@ -18,14 +18,14 @@ name_space = app.namespace('Text Summarizer', description='Enter the url of the 
 @name_space.doc(params={'url':{'URL enter':'Please enter the URL','in':'query','type':'string'}})
 class MainClass(Resource):
     def get(self):
-        scrap = Scraper(str(request.args.get('url')))
-        res = scrap.scraper()
+        executor = Executor(str(request.args.get('url')))
+        res = executor.execute()
         return {
-            "urls": res['urls'],
-            "linkless": res['linkless']
+            "urls": str(res['urls']),
+            "linkless": str(res['linkless'])
         }
 
     
 
 if __name__ == '__main__':
-    flask_app.run(debug=False, host='0.0.0.0')
+    flask_app.run(debug=True, host='0.0.0.0')
