@@ -3,6 +3,7 @@ services:
     application:
 
         image: devagastya0/text_summary:latest
+
         ports:
           - "5000:5000"
         volumes: 
