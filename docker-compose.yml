@@ -9,3 +9,4 @@ services:
         volumes: 
           - ./:/app
         command: ["python","/app/api.py"]
+	restart: always
