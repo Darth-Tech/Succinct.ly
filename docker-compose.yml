@@ -8,6 +8,8 @@ services:
         volumes: 
           - ./:/app
         command: ["python","/app/api.py"]
+        restart: always
+
     webhook:
         image: devagastya0/webhooks
         ports:
@@ -15,3 +17,4 @@ services:
         command: ["-verbose", "-hooks=/etc/webhook/hooks.json", "-hotreload","--port","8080"]
         volumes:
           - ./:/hook
+        restart: always
