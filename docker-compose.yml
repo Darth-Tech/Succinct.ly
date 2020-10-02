@@ -3,9 +3,15 @@ services:
     application:
 
         image: devagastya0/text_summary:latest
-
         ports:
           - "5000:5000"
         volumes: 
           - ./:/app
         command: ["python","/app/api.py"]
+    webhook:
+        image: devagastya0/webhooks
+        ports:
+          - "8080:8080"
+        command: ["-verbose", "-hooks=/etc/webhook/hooks.json", "-hotreload","--port","8080"]
+        volumes:
+          - ./:/hook
