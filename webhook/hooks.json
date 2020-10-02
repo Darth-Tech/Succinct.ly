@@ -1,0 +1,12 @@
+[
+  {
+    "id": "redeploy-webhook",
+    "execute-command": "sudo",
+    "pass-arguments-to-command": [
+  				{
+    					"source": "string",
+    					"name": "/var/scripts/auto-deploy.sh"
+  }
+]
+  }
+]
