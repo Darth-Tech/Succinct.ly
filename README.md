@@ -1,5 +1,4 @@
 # Text summarizer as a Chrome extension
-![Logo](logo.png)
 This repository contains the source code for the chrome extension to automatically summarize text in a given page.
 
 It uses the [Bert Extractive Summarizer](https://pypi.org/project/bert-extractive-summarizer/) by Derek Miller.
