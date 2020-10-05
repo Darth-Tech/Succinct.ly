@@ -18,4 +18,4 @@ COPY --from=build-image /opt/venv /opt/venv
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-CMD ["python", "api.py"]
+CMD python /app/api.py
