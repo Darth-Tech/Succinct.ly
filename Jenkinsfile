@@ -28,7 +28,7 @@ pipeline {
             steps {
                 checkout([
                     $class: 'GitSCM', 
-                    branches: [[name: '*/main']], 
+                    branches: [[name: '*/jenkins']], 
                     userRemoteConfigs: [[url: 'https://github.com/Darth-Tech/Succinct.ly.git']]
                 ])
             }
