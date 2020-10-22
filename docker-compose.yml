@@ -5,9 +5,9 @@ services:
         image: devagastya0/text_summary:latest
         ports:
           - "5000:5000"
-        volumes: 
-          - ./:/app
-        command: ["python","/app/api.py"]
+        #volumes: 
+        #  - ./:/app
+        command: ["python","/text_summarizer/app/api.py"]
         restart: always
 
     webhook:
