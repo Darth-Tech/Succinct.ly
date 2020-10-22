@@ -2,7 +2,7 @@ pipeline {
 
     agent {
         node {
-            label 'text_summarizer'
+            label 'master'
         }
     }
 
