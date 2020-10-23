@@ -27,11 +27,13 @@ pipeline {
         stage('Code Checkout') {
             steps {
                 checkout([
-                    $class: 'GitSCM', 
-                    branches: [[name: '*/jenkins']], 
-			credentials("Dev's Darth Tech Creds"),
-                    userRemoteConfigs: [[url: 'https://github.com/Darth-Tech/Succinct.ly.git']]
-                ])
+        		$class: 'GitSCM', 
+        		branches: [[name: '*/jenkins']], 
+        		doGenerateSubmoduleConfigurations: false, 
+        		extensions: [[$class: 'CleanCheckout']], 
+        		submoduleCfg: [], 
+        		userRemoteConfigs: [[credentialsId: "Dev's Darth Tech Creds, url: '']]
+    ])
             }
         }
 
