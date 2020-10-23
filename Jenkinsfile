@@ -29,7 +29,7 @@ pipeline {
                 checkout([
                     $class: 'GitSCM', 
                     branches: [[name: '*/jenkins']], 
-		    credentials("Dev's Darth Tech Creds") 
+			credentials("Dev's Darth Tech Creds"),
                     userRemoteConfigs: [[url: 'https://github.com/Darth-Tech/Succinct.ly.git']]
                 ])
             }
