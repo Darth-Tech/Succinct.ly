@@ -32,7 +32,7 @@ pipeline {
         		doGenerateSubmoduleConfigurations: false, 
         		extensions: [[$class: 'CleanCheckout']], 
         		submoduleCfg: [], 
-        		userRemoteConfigs: [[credentialsId: "Dev's Darth Tech Creds, url: '']]
+        		userRemoteConfigs: [[credentialsId: "Dev's Darth Tech Creds, url: 'https://github.com/Darth-Tech/Succinct.ly.git']]
     ])
             }
         }
