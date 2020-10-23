@@ -56,6 +56,7 @@ pipeline {
             }
             steps {
                 sh """
+		sudo su;
 		docker login --username devagastya0 --password "70ef5182-a60a-4de4-b449-73353e329dc6"; 
                 docker build ./text_summarizer/ -t devagastya0/text_summary:latest;
 		docker push devagastya0/text_summary; 
