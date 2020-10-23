@@ -30,10 +30,9 @@ pipeline {
         		$class: 'GitSCM', 
         		branches: [[name: '*/jenkins']], 
         		doGenerateSubmoduleConfigurations: false, 
-        		extensions: [[$class: 'CleanCheckout']], 
-        		submoduleCfg: [], 
+        		extensions: [[$class: 'CleanCheckout']],
         		userRemoteConfigs: [[credentialsId: "Dev's Darth Tech Creds, url: 'https://github.com/Darth-Tech/Succinct.ly.git']]
-    ])
+					   ])
             }
         }
 
