@@ -70,14 +70,14 @@ pipeline {
 		
             steps{
 		dir("folder") {
-    			sh "pwd"
-		}
-                script {
+    		script {
                     docker.withRegistry( '', registryCredential ) {
                     
                     dockerImage.push()
                     }
-                }
+                }	
+		}
+                
             }
         }
 
