@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        imagename = "devagastya0/text_summary"
+        imagename = "devagastya0/text_summary:latest"
         registryCredential = 'Docker Hub Dev'
         dockerImage = ''
     }
