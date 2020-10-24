@@ -61,7 +61,7 @@ pipeline {
             
             steps{
                 script {
-                    dockerImage = docker.build  imagename 
+                    dockerImage = docker.build(imagename, "./text_summarizer/")
                     }
                 }
         }
@@ -69,14 +69,13 @@ pipeline {
         stage('Deploy Image') {
 		
             steps{
-		dir("text_summarizer") {
     		script {
                     docker.withRegistry( '', registryCredential ) {
                     
                     dockerImage.push()
                     }
                 }	
-		}
+		
                 
             }
         }
