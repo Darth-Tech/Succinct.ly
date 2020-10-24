@@ -1,8 +1,11 @@
 pipeline {
     environment {
-        DOCKER_IMAGE_TAG = "devagastya0/text_summary:latest"
+        DOCKER_IMAGE = "devagastya0/text_summary"
         registryCredential = 'Docker Hub Dev'
-        dockerImage = ''
+        DOCKER_DEV_TAG = "latest"
+	DOCKER_MASTER_TAG = "stable"
+	DOCKER_FEATURE_TAG = "feature"
+	
     }
 
     agent {
@@ -54,7 +57,7 @@ pipeline {
         //        """
         //    }
         //}
-        stage('Building image') {
+        stage('Building new feature release') {
             when {
                 branch 'feature'
             }
@@ -63,8 +66,40 @@ pipeline {
                 script {
 		    sh"""
 		    echo "Building docker image..."
+		    cd text_summarizer
+                    docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
 		    
-                    docker build -t $DOCKER_IMAGE_TAG -f ./text_summarizer/Dockerfile .
+		    """
+                    }
+                }
+        }
+	stage('Building Development release') {
+            when {
+                branch 'dev'
+            }
+            
+            steps{
+                script {
+		    sh"""
+		    echo "Building docker image..."
+		    cd text_summarizer
+                    docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
+		    
+		    """
+                    }
+                }
+        }
+	stage('Building stable release') {
+            when {
+                branch 'master'
+            }
+            
+            steps{
+                script {
+		    sh"""
+		    echo "Building docker image..."
+		    cd text_summarizer
+                    docker build -t $DOCKER_IMAGE:$DOCKER_MASTER_TAG -f ./Dockerfile .
 		    
 		    """
                     }
