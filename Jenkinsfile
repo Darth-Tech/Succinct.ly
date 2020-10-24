@@ -47,25 +47,25 @@ pipeline {
         //    }
         //}
 
-        stage('Code Analysis') {
-            steps {
-                sh """
-                echo "Running Code Analysis"
-                """
-            }
-        }
+        //stage('Code Analysis') {
+        //    steps {
+        //        sh """
+        //        echo "Running Code Analysis"
+        //        """
+        //    }
+        //}
         stage('Building image') {
             when {
-                branch 'jenkins'
+                branch 'feature'
             }
             
             steps{
                 script {
 		    sh"""
 		    echo "Building docker image..."
-		    sudo su
+		    
                     docker build -t $DOCKER_IMAGE_TAG -f ./text_summarizer/Dockerfile .
-		    exit
+		    
 		    """
                     }
                 }
