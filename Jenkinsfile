@@ -61,8 +61,8 @@ pipeline {
             
             steps{
                 script {
-		    echo "Running Code Analysis"
-                    docker_image = docker.build("-t ${env.DOCKER_IMAGE_TAG}", '-f ./text_summarizer/Dockerfile .')
+		    echo "Building docker image..."
+                    docker build -t "${env.DOCKER_IMAGE_TAG}" -f ./text_summarizer/Dockerfile .
                     }
                 }
         }
