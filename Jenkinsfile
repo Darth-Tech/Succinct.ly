@@ -1,13 +1,12 @@
 pipeline {
     environment {
         DOCKER_IMAGE = "devagastya0/text_summary"
-        registryCredential = 'Docker Hub Dev'
         DOCKER_DEV_TAG = "latest"
-	DOCKER_MASTER_TAG = "stable"
-	DOCKER_FEATURE_TAG = "feature"
-	FEATURE_BUILD = false
-	DEV_BUILD = false
-	STABLE_BUILD = false
+        DOCKER_MASTER_TAG = "stable"
+        DOCKER_FEATURE_TAG = "feature"
+        FEATURE_BUILD = false
+        DEV_BUILD = false
+        STABLE_BUILD = false
     }
 
     agent {
@@ -59,25 +58,23 @@ pipeline {
         //        """
         //    }
         //}
-        stage('Building new feature release') {
-            when {
+    stage('Building new feature release') {
+        when {
                 branch 'feature'
             }
-		environment {
-		    FEATURE_BUILD = false
-		}
-            steps{
-                script {
-		    sh"""
-		    echo "Building docker image..."
-		    cd text_summarizer
-                    docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
-		    """
-                    }
-		withEnv(["FEATURE_BUILD=true"])
+		
+        steps{
+            script {
+                sh"""
+                echo "Building feature docker image..."
+                cd text_summarizer
+                        docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
+                """
+                }
+		    withEnv(["FEATURE_BUILD=true"])
                 }
 		
-        }
+            }
 	stage('Building Development release') {
             when {
                 branch 'dev'
@@ -85,15 +82,15 @@ pipeline {
             
             steps{
                 script {
-		    sh"""
-		    echo "Building docker image..."
-		    cd text_summarizer
-                    docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
-		    """
-                    }
+                sh"""
+                echo "Building development docker image..."
+                cd text_summarizer
+                        docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
+                """
+                }
 		withEnv(["DEV_BUILD=true"])
                 }
-        }
+            }
 	stage('Building stable release') {
             when {
                 branch 'master'
@@ -101,62 +98,46 @@ pipeline {
             
             steps{
                 script {
-		    sh"""
-		    echo "Building docker image..."
-		    cd text_summarizer
-                    docker build -t $DOCKER_IMAGE:$DOCKER_MASTER_TAG -f ./Dockerfile .
-		    """
+                    sh"""
+                    echo "Building stable docker image..."
+                    cd text_summarizer
+                            docker build -t $DOCKER_IMAGE:$DOCKER_MASTER_TAG -f ./Dockerfile .
+                    """
                     }
-		withEnv(["STABLE_BUILD=true"])
+		    withEnv(["STABLE_BUILD=true"])
                 }
-        }
-
-        stage('Push builded image') {
-		
-            steps{
-    		script {
-			
-			if (env.FEATURE_BUILD.toBoolean()==true) {
-		    sh"""
-		    echo "Pushing feature build into docker hub..."
-                    docker push $DOCKER_IMAGE:$DOCKER_FEATURE_TAG
-		    """
-			}
-			
-			if (env.DEV_BUILD.toBoolean()==true) {
-		    sh"""
-		    echo "Pushing development build into docker hub..."
-                    docker push $DOCKER_IMAGE:$DOCKER_DEV_TAG
-		    """
-			}
-			
-			if (env.STABLE_BUILD.toBoolean()==true) {
-		    sh"""
-		    echo "Pushing stable build into docker hub..."
-                    docker push $DOCKER_IMAGE:$DOCKER_STABLE_TAG
-		    """
-				
-			}
-			
-                    }
-                }	
-		
             }
+
+    stage('Push builded image') {
+    
+        steps{
+            script {
+            
+                if (env.FEATURE_BUILD.toBoolean()==true) {
+                    sh"""
+                    echo "Pushing feature build into docker hub..."
+                            docker push $DOCKER_IMAGE:$DOCKER_FEATURE_TAG
+                    """
+                    }
+                
+                if (env.DEV_BUILD.toBoolean()==true) {
+                    sh"""
+                    echo "Pushing development build into docker hub..."
+                            docker push $DOCKER_IMAGE:$DOCKER_DEV_TAG
+                    """
+                    }
+                
+                if (env.STABLE_BUILD.toBoolean()==true) {
+                    sh"""
+                    echo "Pushing stable build into docker hub..."
+                            docker push $DOCKER_IMAGE:$DOCKER_STABLE_TAG
+                    """
+                    
+                    }
+            
+                }
+            }	
+    
         }
-
-        //stage('Build Deploy Code') {
-        //    when {
-        //        branch 'jenkins'
-        //    }
-        //   steps {
-        //        sh """
-		//docker login --username devagastya0 --password "70ef5182-a60a-4de4-b449-73353e329dc6"; 
-        //        docker build ./text_summarizer/ -t devagastya0/text_summary:latest;
-		//docker push devagastya0/text_summary; 
-		//echo "Built deploy code..."
-        //        """
-        //    }
-        //}
-
-    }   
+    }       
 }
