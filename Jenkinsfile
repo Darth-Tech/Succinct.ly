@@ -61,6 +61,7 @@ pipeline {
             
             steps{
                 script {
+		    echo "Running Code Analysis"
                     dockerImage = docker.build("devagastya0/text_summary:latest", "./text_summarizer/")
                     }
                 }
