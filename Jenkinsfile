@@ -1,10 +1,10 @@
 pipeline {
     environment {
-        imagename = "devagastya0/text_summary"
-        registryCredential = 'Docker Hub Dev'
+        imagename = "devagastya0/text_summary",
+        registryCredential = 'Docker Hub Dev',
         dockerImage = ''
     }
-    
+
     agent {
         node {
             label 'master'
