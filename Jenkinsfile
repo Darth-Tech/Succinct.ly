@@ -1,5 +1,10 @@
 pipeline {
-
+    environment {
+        imagename = "devagastya0/text_summary"
+        registryCredential = 'Docker Hub Dev'
+        dockerImage = ''
+    }
+    
     agent {
         node {
             label 'master'
@@ -49,20 +54,42 @@ pipeline {
                 """
             }
         }
-
-        stage('Build Deploy Code') {
+        stage('Building image') {
             when {
                 branch 'jenkins'
             }
-            steps {
-                sh """
-		docker login --username devagastya0 --password "70ef5182-a60a-4de4-b449-73353e329dc6"; 
-                docker build ./text_summarizer/ -t devagastya0/text_summary:latest;
-		docker push devagastya0/text_summary; 
-		echo "Built deploy code..."
-                """
+            imagename = text_summary
+            steps{
+                script {
+                    dockerImage = docker.build imagename
+                    }
+                }
+        }
+
+        stage('Deploy Image') {
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                    
+                    dockerImage.push('latest')
+                    }
+                }
             }
         }
+
+        //stage('Build Deploy Code') {
+        //    when {
+        //        branch 'jenkins'
+        //    }
+        //   steps {
+        //        sh """
+		//docker login --username devagastya0 --password "70ef5182-a60a-4de4-b449-73353e329dc6"; 
+        //        docker build ./text_summarizer/ -t devagastya0/text_summary:latest;
+		//docker push devagastya0/text_summary; 
+		//echo "Built deploy code..."
+        //        """
+        //    }
+        //}
 
     }   
 }
