@@ -61,13 +61,17 @@ pipeline {
             
             steps{
                 script {
-                    dockerImage = docker.build + "/text_summarizer/" + imagename 
+                    dockerImage = docker.build  imagename 
                     }
                 }
         }
 
         stage('Deploy Image') {
+		
             steps{
+		dir("folder") {
+    			sh "pwd"
+		}
                 script {
                     docker.withRegistry( '', registryCredential ) {
                     
