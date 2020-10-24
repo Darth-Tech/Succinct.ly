@@ -61,7 +61,7 @@ pipeline {
             
             steps{
                 script {
-                    dockerImage = docker.build imagename + "latest"
+                    dockerImage = docker.build imagename + ":latest"
                     }
                 }
         }
