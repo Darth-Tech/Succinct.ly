@@ -5,7 +5,9 @@ pipeline {
         DOCKER_DEV_TAG = "latest"
 	DOCKER_MASTER_TAG = "stable"
 	DOCKER_FEATURE_TAG = "feature"
-	
+	FEATURE_BUILD = false
+	DEV_BUILD = false
+	STABLE_BUILD = false
     }
 
     agent {
@@ -61,17 +63,20 @@ pipeline {
             when {
                 branch 'feature'
             }
-            
+		environment {
+		    FEATURE_BUILD = false
+		}
             steps{
                 script {
 		    sh"""
 		    echo "Building docker image..."
 		    cd text_summarizer
                     docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
-		    
 		    """
                     }
+		withEnv(["FEATURE_BUILD=true"])
                 }
+		
         }
 	stage('Building Development release') {
             when {
@@ -84,9 +89,9 @@ pipeline {
 		    echo "Building docker image..."
 		    cd text_summarizer
                     docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
-		    
 		    """
                     }
+		withEnv(["DEV_BUILD=true"])
                 }
         }
 	stage('Building stable release') {
@@ -100,23 +105,42 @@ pipeline {
 		    echo "Building docker image..."
 		    cd text_summarizer
                     docker build -t $DOCKER_IMAGE:$DOCKER_MASTER_TAG -f ./Dockerfile .
-		    
 		    """
                     }
+		withEnv(["STABLE_BUILD=true"])
                 }
         }
 
-        stage('Deploy Image') {
+        stage('Push builded image') {
 		
             steps{
     		script {
-                    docker.withRegistry( '', registryCredential ) {
-                    
-                    docker_image.push()
+			
+			if (env.FEATURE_BUILD.toBoolean()==true) {
+		    sh"""
+		    echo "Pushing feature build into docker hub..."
+                    docker push $DOCKER_IMAGE:$DOCKER_FEATURE_TAG
+		    """
+			}
+			
+			if (env.DEV_BUILD.toBoolean()==true) {
+		    sh"""
+		    echo "Pushing development build into docker hub..."
+                    docker push $DOCKER_IMAGE:$DOCKER_DEV_TAG
+		    """
+			}
+			
+			if (env.STABLE_BUILD.toBoolean()==true) {
+		    sh"""
+		    echo "Pushing stable build into docker hub..."
+                    docker push $DOCKER_IMAGE:$DOCKER_STABLE_TAG
+		    """
+				
+			}
+			
                     }
                 }	
 		
-                
             }
         }
 
