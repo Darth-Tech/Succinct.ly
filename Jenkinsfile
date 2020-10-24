@@ -69,7 +69,7 @@ pipeline {
         stage('Deploy Image') {
 		
             steps{
-		dir("folder") {
+		dir("text_summarizer") {
     		script {
                     docker.withRegistry( '', registryCredential ) {
                     
