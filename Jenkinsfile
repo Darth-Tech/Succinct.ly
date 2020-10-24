@@ -61,8 +61,10 @@ pipeline {
             
             steps{
                 script {
+		    sh"""
 		    echo "Building docker image..."
                     docker build -t devagastya0/text_summary:latest -f ./text_summarizer/Dockerfile .
+		    """
                     }
                 }
         }
