@@ -61,7 +61,7 @@ pipeline {
             
             steps{
                 script {
-                    dockerImage = docker.build(imagename, "./text_summarizer/")
+                    dockerImage = docker.build("devagastya0/text_summarizer:latest", "./text_summarizer/")
                     }
                 }
         }
