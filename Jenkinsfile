@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        imagename = "devagastya0/text_summary:latest"
+        DOCKER_IMAGE_TAG = "devagastya0/text_summary:latest"
         registryCredential = 'Docker Hub Dev'
         dockerImage = ''
     }
@@ -62,7 +62,7 @@ pipeline {
             steps{
                 script {
 		    echo "Running Code Analysis"
-                    dockerImage = docker.build("devagastya0/text_summary:latest", "./text_summarizer/")
+                    docker_image = docker.build("${env.DOCKER_IMAGE_TAG}", '-f ./text_summarizer/Dockerfile .')
                     }
                 }
         }
@@ -73,7 +73,7 @@ pipeline {
     		script {
                     docker.withRegistry( '', registryCredential ) {
                     
-                    dockerImage.push()
+                    docker_image.push()
                     }
                 }	
 		
