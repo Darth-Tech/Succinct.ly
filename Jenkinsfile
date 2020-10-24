@@ -58,10 +58,10 @@ pipeline {
             when {
                 branch 'jenkins'
             }
-            imagename = text_summary
+            
             steps{
                 script {
-                    dockerImage = docker.build imagename
+                    dockerImage = docker.build imagename + "latest"
                     }
                 }
         }
