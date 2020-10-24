@@ -63,7 +63,9 @@ pipeline {
                 script {
 		    sh"""
 		    echo "Building docker image..."
-                    docker build -t devagastya0/text_summary:latest -f ./text_summarizer/Dockerfile .
+		    sudo su
+                    docker build -t $DOCKER_IMAGE_TAG -f ./text_summarizer/Dockerfile .
+		    exit
 		    """
                     }
                 }
