@@ -62,7 +62,7 @@ pipeline {
             steps{
                 script {
 		    echo "Building docker image..."
-                    docker build -t ${env.DOCKER_IMAGE_TAG} -f ./text_summarizer/Dockerfile .
+                    docker build -t $env.DOCKER_IMAGE_TAG -f ./text_summarizer/Dockerfile .
                     }
                 }
         }
