@@ -61,7 +61,7 @@ pipeline {
             
             steps{
                 script {
-                    dockerImage = docker.build imagename 
+                    dockerImage = docker.build + "/text_summarizer/" + imagename 
                     }
                 }
         }
