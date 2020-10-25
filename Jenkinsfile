@@ -58,92 +58,93 @@ pipeline {
         //        """
         //    }
         //}
-    stage('Building new feature release') {
-        when {
-                branch 'feature'
-            }
-		
-        steps{
-            script {
-                sh"""
-                echo "Building feature docker image..."
-                cd text_summarizer
-                        docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
-                """
-		withEnv(["FEATURE_BUILD=true"]){
-				echo "Feature image built. $FEATURE_BUILD"
-			}
-                }
-                }
-		
-            }
-	stage('Building Development release') {
+        stage('Building new feature release') {
             when {
-                branch 'dev'
-            }
-            
-            steps{
-                script {
-                sh"""
-                echo "Building development docker image..."
-                cd text_summarizer
-                        docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
-                """
-			withEnv(["DEV_BUILD=true"]){
-				echo "Developer image built.$DEV_BUILD"
-			}
+                    branch 'feature'
                 }
-                }
-            }
-	stage('Building stable release') {
-            when {
-                branch 'master'
-            }
             
             steps{
                 script {
                     sh"""
-                    echo "Building stable docker image..."
+                    echo "Building feature docker image..."
                     cd text_summarizer
-                            docker build -t $DOCKER_IMAGE:$DOCKER_MASTER_TAG -f ./Dockerfile .
+                            docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
                     """
-                    }
-		    withEnv(["STABLE_BUILD=true"]){
-				echo "Stable image built."
-			}
-                }
-            }
-
-    stage('Push builded image') {
-    
-        steps{
-            script {
             
-                if ($FEATURE_BUILD == true) {
+                    }
+                    }
+            
+                }
+        stage('Building Development release') {
+                when {
+                    branch 'dev'
+                }
+                
+                steps{
+                    script {
+                    sh"""
+                    echo "Building development docker image..."
+                    cd text_summarizer
+                            docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
+                    """
+                
+                    }
+                    }
+                }
+        stage('Building stable release') {
+                when {
+                    branch 'master'
+                }
+                
+                steps{
+                    script {
+                        sh"""
+                        echo "Building stable docker image..."
+                        cd text_summarizer
+                                docker build -t $DOCKER_IMAGE:$DOCKER_MASTER_TAG -f ./Dockerfile .
+                        """
+                        }
+                
+                    }
+                }
+
+        stage('Push feature build image') {
+        
+            steps{
+                script {
                     sh"""
                     echo "Pushing feature build into docker hub..."
                             docker push $DOCKER_IMAGE:$DOCKER_FEATURE_TAG
                     """
-                    }
-                
-                if (env.DEV_BUILD.toBoolean() == 'true') {
+                        
+                }
+            }
+        }
+        stage('Push development build image') {
+        
+            steps{
+                script {
                     sh"""
                     echo "Pushing development build into docker hub..."
                             docker push $DOCKER_IMAGE:$DOCKER_DEV_TAG
                     """
-                    }
-                
-                if (env.STABLE_BUILD.toBoolean() == 'true') {
+                        
+                }
+            }
+        }
+        stage('Push stable image') {
+        
+            steps{
+                script {
                     sh"""
                     echo "Pushing stable build into docker hub..."
-                            docker push $DOCKER_IMAGE:$DOCKER_STABLE_TAG
+                            docker push $DOCKER_IMAGE:$DOCKER_MASTER_TAG
                     """
-                    
-                    }
-            
+                        
                 }
-            }	
-    
+            }
         }
-    }       
+
+    }
 }
+               
