@@ -71,7 +71,7 @@ pipeline {
                         docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
                 """
 		withEnv(["FEATURE_BUILD=true"]){
-				echo "Feature image built."
+				echo "Feature image built. $FEATURE_BUILD"
 			}
                 }
                 }
@@ -90,7 +90,7 @@ pipeline {
                         docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
                 """
 			withEnv(["DEV_BUILD=true"]){
-				echo "Developer image built."
+				echo "Developer image built.$DEV_BUILD"
 			}
                 }
                 }
