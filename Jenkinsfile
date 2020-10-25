@@ -70,8 +70,8 @@ pipeline {
                 cd text_summarizer
                         docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
                 """
+		withEnv(["FEATURE_BUILD=true"])
                 }
-		    withEnv(["FEATURE_BUILD=true"])
                 }
 		
             }
@@ -87,8 +87,8 @@ pipeline {
                 cd text_summarizer
                         docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
                 """
-                }
 		withEnv(["DEV_BUILD=true"])
+                }
                 }
             }
 	stage('Building stable release') {
