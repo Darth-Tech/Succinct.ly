@@ -119,7 +119,7 @@ pipeline {
         steps{
             script {
             
-                if (env.FEATURE_BUILD.toBoolean()) {
+                if (env.FEATURE_BUILD == true) {
                     sh"""
                     echo "Pushing feature build into docker hub..."
                             docker push $DOCKER_IMAGE:$DOCKER_FEATURE_TAG
