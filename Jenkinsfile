@@ -119,21 +119,21 @@ pipeline {
         steps{
             script {
             
-                if (env.FEATURE_BUILD.toBoolean()==true) {
+                if (env.FEATURE_BUILD.toBoolean() == 'true') {
                     sh"""
                     echo "Pushing feature build into docker hub..."
                             docker push $DOCKER_IMAGE:$DOCKER_FEATURE_TAG
                     """
                     }
                 
-                if (env.DEV_BUILD.toBoolean()==true) {
+                if (env.DEV_BUILD.toBoolean() == 'true') {
                     sh"""
                     echo "Pushing development build into docker hub..."
                             docker push $DOCKER_IMAGE:$DOCKER_DEV_TAG
                     """
                     }
                 
-                if (env.STABLE_BUILD.toBoolean()==true) {
+                if (env.STABLE_BUILD.toBoolean() == 'true') {
                     sh"""
                     echo "Pushing stable build into docker hub..."
                             docker push $DOCKER_IMAGE:$DOCKER_STABLE_TAG
