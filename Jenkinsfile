@@ -109,7 +109,9 @@ pipeline {
                 }
 
         stage('Push feature build image') {
-        
+            when {
+                    branch 'feature'
+                }
             steps{
                 script {
                     sh"""
@@ -121,7 +123,9 @@ pipeline {
             }
         }
         stage('Push development build image') {
-        
+            when {
+                    branch 'dev'
+                }
             steps{
                 script {
                     sh"""
@@ -133,7 +137,9 @@ pipeline {
             }
         }
         stage('Push stable image') {
-        
+            when {
+                    branch 'master'
+                }
             steps{
                 script {
                     sh"""
