@@ -70,7 +70,9 @@ pipeline {
                 cd text_summarizer
                         docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
                 """
-		withEnv(["FEATURE_BUILD=true"])
+		withEnv(["FEATURE_BUILD=true"]){
+				echo "Feature image built."
+			}
                 }
                 }
 		
@@ -87,7 +89,9 @@ pipeline {
                 cd text_summarizer
                         docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
                 """
-		withEnv(["DEV_BUILD=true"])
+			withEnv(["DEV_BUILD=true"]){
+				echo "Developer image built."
+			}
                 }
                 }
             }
@@ -104,7 +108,9 @@ pipeline {
                             docker build -t $DOCKER_IMAGE:$DOCKER_MASTER_TAG -f ./Dockerfile .
                     """
                     }
-		    withEnv(["STABLE_BUILD=true"])
+		    withEnv(["STABLE_BUILD=true"]){
+				echo "Stable image built."
+			}
                 }
             }
 
