@@ -1,20 +1,18 @@
 version: '3'
 services:
     application:
-
+        build: ./text_summarizer
         image: devagastya0/text_summary:latest
         ports:
           - "5000:5000"
-        #volumes: 
-        #  - ./:/app
-        command: ["python","/text_summarizer/app/api.py"]
+        command: ["python","/app/api.py"]
         restart: always
-
-    webhook:
-        image: devagastya0/webhooks
-        ports:
-          - "8080:8080"
-        command: ["-verbose", "-hooks=/etc/webhook/hooks.json", "-hotreload","--port","8080"]
-        volumes:
-          - ./:/hook
-        restart: always
+    //webhook:
+    //    build: ./webhook
+    //    image: devagastya0/webhooks
+    //    ports:
+    //      - "8008:8008"
+    //    command: ["-verbose", "-hooks=/etc/webhook/hooks.json", "-hotreload","--port","8008"]
+    //    volumes:
+    //      - ./:/hook
+    //    restart: always
