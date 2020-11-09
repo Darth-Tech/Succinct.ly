@@ -5,17 +5,14 @@ services:
         image: devagastya0/text_summary:latest
         ports:
           - "5000:5000"
-#        volumes: 
-#          - ./:/app
         command: ["python","/app/api.py"]
         restart: always
-
-    webhook:
-        build: ./webhook
-        image: devagastya0/webhooks
-        ports:
-          - "8008:8008"
-        command: ["-verbose", "-hooks=/etc/webhook/hooks.json", "-hotreload","--port","8008"]
-        volumes:
-          - ./:/hook
-        restart: always
+    //webhook:
+    //    build: ./webhook
+    //    image: devagastya0/webhooks
+    //    ports:
+    //      - "8008:8008"
+    //    command: ["-verbose", "-hooks=/etc/webhook/hooks.json", "-hotreload","--port","8008"]
+    //    volumes:
+    //      - ./:/hook
+    //    restart: always

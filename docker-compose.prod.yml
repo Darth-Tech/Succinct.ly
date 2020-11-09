@@ -5,7 +5,5 @@ services:
         image: devagastya0/text_summary:stable
         ports:
           - "5000:5000"
-#        volumes: 
-#          - ./:/app
         command: ["python","/app/api.py"]
         restart: always
