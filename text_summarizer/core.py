@@ -9,8 +9,8 @@ from transformers import AutoConfig, AutoTokenizer
 
 
 class Summary:
-    def __init__(self):
-        pass
+    def __init__(self, model):
+        self.model = model
 
     def model_create(self, model=None, tokeniser=None):
         """[summary]
@@ -32,7 +32,7 @@ class Summary:
             
         return model
 
-    def summarize(self, text, num_sentences=None, ratio=None):
+    def summarizeAdvanced(self, text, num_sentences=None, ratio=None):
         """[summary]
 
         Args:
@@ -56,5 +56,11 @@ class Summary:
             summary = model(text, ratio=ratio)
             result = ''.join(summary)
 
+        return result
+
+    def summarize(self, text):
+        summary = self.model("TESTING AWESOME AMAZING")
+        summary = self.model(text)
+        result = ''.join(summary)
         return result
 
