@@ -3,10 +3,7 @@ pipeline {
         DOCKER_IMAGE = "devagastya0/text_summary"
         DOCKER_DEV_TAG = "latest"
         DOCKER_MASTER_TAG = "stable"
-        DOCKER_FEATURE_TAG = "feature"
-        FEATURE_BUILD = false
-        DEV_BUILD = false
-        STABLE_BUILD = false
+        
     }
 
     agent {
@@ -58,23 +55,7 @@ pipeline {
         //        """
         //    }
         //}
-        stage('Building new feature release') {
-            when {
-                    branch 'feature'
-                }
-            
-            steps{
-                script {
-                    sh"""
-                    echo "Building feature docker image..."
-                    cd text_summarizer
-                            docker build -t $DOCKER_IMAGE:$DOCKER_FEATURE_TAG -f ./Dockerfile .
-                    """
-            
-                    }
-                    }
-            
-                }
+        
         stage('Building Development release') {
                 when {
                     branch 'dev'
@@ -82,12 +63,10 @@ pipeline {
                 
                 steps{
                     script {
-                    sh"""
-                    echo "Building development docker image..."
-                    cd text_summarizer
-                            docker build -t $DOCKER_IMAGE:$DOCKER_DEV_TAG -f ./Dockerfile .
-                    """
-                
+                    
+                        echo "Building development docker image..."
+                    
+                        dockerImage= docker.build(DOCKER_IMAGE + ":$DOCKER_DEV_TAG")
                     }
                     }
                 }
@@ -98,30 +77,14 @@ pipeline {
                 
                 steps{
                     script {
-                        sh"""
-                        echo "Building stable docker image..."
-                        cd text_summarizer
-                                docker build -t $DOCKER_IMAGE:$DOCKER_MASTER_TAG -f ./Dockerfile .
-                        """
+                            echo "Building stable docker image..."
+                            dockerImage= docker.build(DOCKER_IMAGE + ":$DOCKER_STABLE_TAG")
                         }
                 
                     }
                 }
 
-        stage('Push feature build image') {
-            when {
-                    branch 'feature'
-                }
-            steps{
-                script {
-                    sh"""
-                    echo "Pushing feature build into docker hub..."
-                            docker push $DOCKER_IMAGE:$DOCKER_FEATURE_TAG
-                    """
-                        
-                }
-            }
-        }
+    
         stage('Push development build image') {
             when {
                     branch 'dev'
