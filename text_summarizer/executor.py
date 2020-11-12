@@ -1,10 +1,10 @@
 from scraper import Scraper
 from core import Summary
 class Executor:
-    def __init__(self, url):
+    def __init__(self, url, model):
         self.scrape = Scraper(url)
-        self.summary = self.Summary()
+        self.summary = Summary(model)
     def execute(self):
         data = self.scrape.scraper()
-        text = self.summary.summarize(data['linkless'])
-        return text
+        data['linkless'] = self.summary.summarize(data['linkless'])
+        return data
