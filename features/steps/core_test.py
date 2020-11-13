@@ -1,12 +1,19 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 17 19:18:08 2020
-
-@author: agastya
-"""
+from behave import given, when, then
+import ast
 from summarizer import Summarizer
 from transformers import AutoConfig, AutoTokenizer
 
+@given('a normal text to summarise with default settings')
+def step_impl(context):
+    pass
+
+@when('we summarize without parameters')
+def step_impl(context):
+    sum = Summary()
+    context.result  = sum.summarizeAdvanced(str(context.text))
+@then('a string is returned')
+def step_impl(context):
+    assert type(context.result) == str
 
 class Summary:
     def __init__(self, model=None, tokeniser=None):
