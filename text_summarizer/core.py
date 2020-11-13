@@ -9,7 +9,7 @@ from transformers import AutoConfig, AutoTokenizer
 
 
 class Summary:
-    def __init__(self, model=None, tokeniser=None):
+    def __init__(self, model=None, tokenizer=None):
         if model == None:
             self.model = Summarizer()
         else:
