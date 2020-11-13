@@ -15,14 +15,11 @@ class Scraper:
     def parser(self):
         page = requests.get(self.url)
         soup = bs4.BeautifulSoup(page.content, 'html.parser')
-
         return soup
-    def findTextAll(self):
+    def scraper(self):
         soup = self.parser()
         output = self.clean.executor(soup)
-
         return output
-    def scraper(self):
-        output = self.findTextAll()
-        return output
-
+s = Scraper("https://theanarchistlibrary.org")
+print(str(type(s.parser())))
+print(type(2))
