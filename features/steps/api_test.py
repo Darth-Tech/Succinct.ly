@@ -1,4 +1,4 @@
-""" from behave import given, when, then
+from behave import given, when, then
 import requests
 
 @given('we post a GET request')
@@ -11,4 +11,3 @@ def step_impl(context):
 def step_impl(context):
     context.response =  requests.get(url = 'http://localhost:5000')
 
- """
