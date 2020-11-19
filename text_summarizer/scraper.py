@@ -21,5 +21,4 @@ class Scraper:
         output = self.clean.executor(soup)
         return output
 s = Scraper("https://theanarchistlibrary.org")
-print(str(type(s.parser())))
-print(type(2))
+print(s.parser())

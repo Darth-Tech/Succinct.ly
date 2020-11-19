@@ -5,7 +5,7 @@ import bs4
 
 @given('a web page url')
 def step_imple(context):
-    context.url = "https://theanarchistlibrary.org"
+    context.url = "https://theanarchistlibrary.org/"
 @when('we parse a page')
 def step_imple(context):
     s = Scraper(context.url)
