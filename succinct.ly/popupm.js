@@ -7,7 +7,7 @@ function GetURL()
         getUsers(url)
     })
 }
-const baseURL = "http://localhost:5000/textSummarizer?url="
+const baseURL = "http://localhost/api/v1/textSummarizer?url="
 async function getUsers(param) {
     
     fetch(

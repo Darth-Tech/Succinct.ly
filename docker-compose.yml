@@ -1,18 +1,23 @@
 version: '3'
 services:
     application:
-        build: ./text_summarizer
-        image: devagastya0/text_summary:latest
-        ports:
-          - "5000:5000"
+        image: devagastya0/text_summary:stable
+        expose:
+          - "5000"
         command: ["python","/app/api.py"]
         restart: always
-    //webhook:
-    //    build: ./webhook
-    //    image: devagastya0/webhooks
-    //    ports:
-    //      - "8008:8008"
-    //    command: ["-verbose", "-hooks=/etc/webhook/hooks.json", "-hotreload","--port","8008"]
-    //    volumes:
-    //      - ./:/hook
-    //    restart: always
+        networks:
+          - succinct
+
+    webserver:
+        image: devagastya0/succinct-nginx:stable
+        restart: unless-stopped
+        tty: true
+        ports:
+          - "80:80"
+          - "443:443"
+        networks:
+          - succinct
+networks:
+  succinct:
+    driver: bridge 
