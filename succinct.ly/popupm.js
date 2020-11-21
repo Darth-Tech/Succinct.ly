@@ -21,7 +21,10 @@ async function getUsers(param) {
       }
     ).then(response => response.json())
     .then((response) => {
-        alert(response.linkless)
+        var myWindow = window.open("", "", );
+        myWindow.focus();
+        myWindow.document.write("<h1>Summary</h1>");
+        myWindow.document.write("<h1>"+response.linkless+"</h1>");
     })
     .catch(err => alert(err))
     
