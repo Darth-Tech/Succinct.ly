@@ -18,7 +18,7 @@ class Summary:
             custom_tokenizer = AutoTokenizer.from_pretrained(tokenizer)
             self.model = Summarizer(custom_model=model, custom_tokenizer=custom_tokenizer)
 
-    
+
     def summarizeAdvanced(self, text, num_sentences=None, ratio=None):
         """[summary]
 
@@ -44,7 +44,8 @@ class Summary:
 
     def summarize(self, text):
         summary = self.model("TESTING AWESOME AMAZING")
-        summary = self.model(text)
-        result = ''.join(summary)
-        return result
-
+        summary = self.model(text, ratio=0.4)
+        summary = summary.split('.')
+        summary = [s for s in summary if not s.startswith('^')]
+        #result = ''.join(summary)
+        return summary

@@ -1,30 +1,23 @@
 {
     "manifest_version": 2,
-  
+
     "name": "Succinct.ly",
     "icons": {"128": "icon.png"},
     "description": "We love summarizing stuff and star wars",
     "version": "1.0",
     "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"]
-      }
-    ],
-  
+
+
     "browser_action": {
       "default_title": "Succinct.ly",
       "default_icon": "icon.png",
       "default_popup": "popupm.html"
     },
     "permissions": [
-      "http://*/*",
-      "https://*/*",
-      "activeTab",
-      "tabs",
-      "storage"
-      
+      "http://localhost/*",
+      "https://localhost/*",
+      "tabs"
+
     ]
-    
+
   }

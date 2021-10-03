@@ -19,19 +19,23 @@ name_space = app.namespace('textSummarizer', description='Enter the url of the p
 class MainClass(Resource):
     def get(self):
         print("Testing...")
-        
+
         print("Hi")
-        test = model("QWERTYUIOPQWERTYUIO DFGH DFGHJ YUIO RTGHJ") 
-        executor = Executor(str(request.args.get('url')), model)
-        res = executor.execute()
+        test = model("QWERTYUIOPQWERTYUIO DFGH DFGHJ YUIO RTGHJ")
+        executor = Executor(str(request.args.get('url')), None)
+        res, urls = executor.execute()
+        result = {}
+        for i in res['results'].unique():
+            dataList= res[res['results']==i]
+            result[str(i)] = [dataList['topics'].unique()[0] ,'. '.join(dataList['text'].tolist())]
+        print(str(result))
         return {
-            "urls": str(res['urls']),
-            "linkless": str(res['linkless'])
+            "urls": str(urls),
+            "linkless": result
         }
 
-    
+
 
 if __name__ == '__main__':
-    
-    flask_app.run(debug=True, host='0.0.0.0', use_reloader=False)
-      
+
+    flask_app.run(debug=True, host='0.0.0.0', use_reloader=True)
