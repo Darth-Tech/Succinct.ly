@@ -1,31 +1,23 @@
 version: '3'
 services:
     application:
-        image: devagastya0/text_summary:v3
-        ports:
-          - "5000:5000"
-        hostname: application
-        container_name: application
+        image: devagastya0/text_summary:stable
+        expose:
+          - "5000"
         command: ["python","/app/api.py"]
         restart: always
         networks:
-            my-network:
-                aliases:
-                    - application
-
-
+          - succinct
 
     webserver:
-        image: devagastya0/succinct-nginx:latest
+        image: devagastya0/succinct-nginx:stable
         restart: unless-stopped
         tty: true
-        container_name: webserver
         ports:
           - "80:80"
           - "443:443"
         networks:
-            - my-network
-        depends_on:
-          - application
+          - succinct
 networks:
-   my-network:
+  succinct:
+    driver: bridge 
